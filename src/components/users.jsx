@@ -5,23 +5,32 @@ export const Users = () => {
 	const [users, setUsers] = useState(api.users.fetchAll());
 
 	const handleDelete = (usersId)=>{
-		console.log(usersId)
 		setUsers(prevState => prevState.filter((user) => user._id !== usersId))
 	};
 
 	const renderPhrase = (number) => {
-		if(number>=2 && number<=4 ) {
-			return 'человека'
+		const lastOne = Number(number.toString().slice(-1))
+		console.log(lastOne); 
+		console.log([2,3,4].indexOf(lastOne) >= 0);
+		if(number>4 && number< 15 )  return 'человек тусанет';
+		if ([2,3,4].indexOf(lastOne) >= 0) return 'человека тусанут';
+		if (lastOne === 1)  return 'человек тусанет';  
+		else  {
+			return 'человек тусанет'
 		  }
-		 else  {
-			return 'человек'
-		  }
+		  
 	};
 
 	const numberOfHuman = users.length
 	return (
 		<>
-		<span className=' m-2 badge bg-primary'><h5> {numberOfHuman} {renderPhrase(numberOfHuman)} тусанет с тобой сегодня</h5></span>
+		<span className= {' m-2 badge bg-' +(numberOfHuman > 0 ? 'primary':'danger')}><h5>  
+			{numberOfHuman > 0 
+			? `${numberOfHuman} ${renderPhrase(numberOfHuman)} с тобой сегодня` 
+			: 'Никто с тобой не тусанет'}
+			  </h5></span>
+
+		{numberOfHuman > 0 &&  
 		<table className="table">
 	<thead>
 		<tr>
@@ -36,18 +45,18 @@ export const Users = () => {
 	<tbody>
 		{users.map((user)=>{
 			return (<tr key={user._id}>
-					<td>{user.name}</td>
-					<td>{user.qualities.map(qality => <span key={qality._id} className={'m-1 badge bg-'+qality.color}>{qality.name}</span>)}</td>
-					<td>{user.profession.name }</td>
-					<td>{user.completedMeetings}</td>
-					<td>{user.rate}</td> 
-					<td><button type="button" className="btn btn-danger m-2" onClick={() => handleDelete(user._id)}>Delete</button></td>
+					<td className='p-1'>{user.name}</td>
+					<td className='p-1'>{user.qualities.map(qality => <span key={qality._id} className={'m-1 badge bg-'+qality.color}>{qality.name}</span>)}</td>
+					<td className='p-1'>{user.profession.name }</td>
+					<td className='p-1'>{user.completedMeetings}</td>
+					<td className='p-1'>{user.rate}</td> 
+					<td className='p-1'><button type="button" className="btn btn-danger m-2" onClick={() => handleDelete(user._id)}>Delete</button></td>
 				</tr>
 
 			)
 		})}
 	</tbody>
-	</table>
+	</table>}
 		</>
 	);
 }
