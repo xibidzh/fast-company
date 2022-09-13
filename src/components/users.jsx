@@ -5,19 +5,23 @@ export const Users = () => {
 	const [users, setUsers] = useState(api.users.fetchAll());
 
 	const handleDelete = (usersId)=>{
-		console.log('delete');
-		console.log(users)
-		
+		console.log(usersId)
+		setUsers(prevState => prevState.filter((user) => user._id !== usersId))
 	};
 
 	const renderPhrase = (number) => {
-		return 'человек'
+		if(number>=2 && number<=4 ) {
+			return 'человека'
+		  }
+		 else  {
+			return 'человек'
+		  }
 	};
 
-
+	const numberOfHuman = users.length
 	return (
 		<>
-		<span className=' m-2 badge bg-primary'><h5> {users.length} {renderPhrase()} тусанет с тобой сегодня</h5></span>
+		<span className=' m-2 badge bg-primary'><h5> {numberOfHuman} {renderPhrase(numberOfHuman)} тусанет с тобой сегодня</h5></span>
 		<table className="table">
 	<thead>
 		<tr>
