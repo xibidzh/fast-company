@@ -1,18 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-
-// const BookMark = ({ status, ...rest }) => {
-//     const name = () => {
-//         return status === true ? "bi bi-bookmark-heart-fill" : "bi bi-bookmark";
-//     };
-//     return (
-//         <button
-//             className={name()}
-//             onClick={() => onBookMark(user._id)}
-//         ></button>
-//     );
-// };
-
 const BookMark = ({ status, ...rest }) => {
     return (
         <button {...rest}>
@@ -20,7 +7,6 @@ const BookMark = ({ status, ...rest }) => {
         </button>
     );
 };
-
 BookMark.propTypes = {
     status: PropTypes.bool
 };
