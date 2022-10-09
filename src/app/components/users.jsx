@@ -19,6 +19,7 @@ const Users = ({ users: allUsers, ...rest }) => {
             .then((data) =>
                 setProfessions(data));
     }, []);
+    console.log(selectedProf);
     useEffect(() => {
         setCurrentPage(1);
     }, [selectedProf]);
@@ -32,7 +33,7 @@ const Users = ({ users: allUsers, ...rest }) => {
     };
 
     const filtredUsers = selectedProf
-        ? allUsers.filter((user) => user.profession === selectedProf)
+        ? allUsers.filter((user) => user.profession._id === selectedProf._id)
         : allUsers;
     const count = filtredUsers.length;
 
