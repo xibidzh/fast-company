@@ -12,12 +12,13 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
     };
 
     const sortDirection = (item) => {
-        // const up = "bi bi-caret-up-fill";
-        // const down = "bi bi-caret-down-fill";
-        if (item.order === "asc") {
+        if (selectedSort.order === "asc" && selectedSort.path === item) {
             return "bi bi-caret-down-fill";
         }
-        return "bi bi-caret-up-fill";
+        if (selectedSort.order === "desc" && selectedSort.path === item) {
+            return "bi bi-caret-up-fill";
+        }
+        return "";
     };
     console.log(sortDirection(selectedSort));
 
@@ -29,7 +30,7 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                             key={column}
                             onClick={columns[column].path ? () => handleSort(columns[column].path) : undefined}
                             scope="col">
-                            <p className={sortDirection(selectedSort)}>{columns[column].name} </p>
+                            <p className={sortDirection(columns[column].path)}>{columns[column].name} </p>
                         </th>
                     ))}
                 </tr>
