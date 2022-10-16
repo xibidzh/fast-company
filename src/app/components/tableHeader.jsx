@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const TableHeader = ({ onSort, selectedSort, columns }) => {
+    console.log(selectedSort.order);
     const handleSort = (item) => {
         if (selectedSort.path === item) {
             onSort({ ...selectedSort, order: selectedSort.order === "asc" ? "desc" : "asc" });
@@ -10,13 +11,15 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
         }
     };
 
-    const sortDirection = (selectedSort) => {
-        const up = "bi bi-caret-up-fill";
-        const down = "bi bi-caret-down-fill";
-        if (selectedSort.order === "asc") {
-            return down;
-        } return up;
+    const sortDirection = (item) => {
+        // const up = "bi bi-caret-up-fill";
+        // const down = "bi bi-caret-down-fill";
+        if (item.order === "asc") {
+            return "bi bi-caret-down-fill";
+        }
+        return "bi bi-caret-up-fill";
     };
+    console.log(sortDirection(selectedSort));
 
     return (
         <thead>
@@ -26,7 +29,7 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                             key={column}
                             onClick={columns[column].path ? () => handleSort(columns[column].path) : undefined}
                             scope="col">
-                            <p className={sortDirection}>{columns[column].name} </p>
+                            <p className={sortDirection(selectedSort)}>{columns[column].name} </p>
                         </th>
                     ))}
                 </tr>
