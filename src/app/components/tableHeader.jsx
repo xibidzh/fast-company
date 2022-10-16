@@ -12,10 +12,9 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
     };
 
     const sortDirection = (item) => {
-        if (selectedSort.order === "asc" && selectedSort.path === item) {
+        if (selectedSort.order === "asc" && selectedSort.path === item && selectedSort.path) {
             return "bi bi-caret-down-fill";
-        }
-        if (selectedSort.order === "desc" && selectedSort.path === item) {
+        } else if (selectedSort.order === "desc" && selectedSort.path === item) {
             return "bi bi-caret-up-fill";
         }
         return "";
