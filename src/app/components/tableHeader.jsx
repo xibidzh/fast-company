@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const TableHeader = ({ onSort, selectedSort, columns }) => {
-    console.log(selectedSort.order);
     const handleSort = (item) => {
         if (selectedSort.path === item) {
             onSort({ ...selectedSort, order: selectedSort.order === "asc" ? "desc" : "asc" });
@@ -11,15 +10,16 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
         }
     };
 
-    const sortDirection = (item) => {
-        if (selectedSort.order === "asc" && selectedSort.path === item && selectedSort.path) {
-            return "bi bi-caret-down-fill";
-        } else if (selectedSort.order === "desc" && selectedSort.path === item) {
-            return "bi bi-caret-up-fill";
+    const renderSortArrow = (selectedSort, currentPath) => {
+        if (selectedSort.path === currentPath) {
+            if (selectedSort.order === "asc") {
+                return <i className="bi bi-caret-down-fill"></i>;
+            } else {
+                return <i className="bi bi-caret-up-fill"></i>;
+            }
         }
-        return "";
+        return null;
     };
-    console.log(sortDirection(selectedSort));
 
     return (
         <thead>
@@ -29,7 +29,7 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
                             key={column}
                             onClick={columns[column].path ? () => handleSort(columns[column].path) : undefined}
                             scope="col">
-                            <p className={sortDirection(columns[column].path)}>{columns[column].name} </p>
+                            {columns[column].name} {renderSortArrow(selectedSort, columns[column].path)}
                         </th>
                     ))}
                 </tr>
