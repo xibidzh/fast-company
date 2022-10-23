@@ -1,9 +1,21 @@
 import React from "react";
 import Users from "./components/users";
-// import api from "./api";
+import { Route, Switch } from "react-router-dom";
+import Login from "./layout/login";
+import Main from "./layout/main";
+import NavBar from "./components/navbar";
 
 function App() {
-    return <Users />;
+    return (
+        <>
+            <NavBar />
+            <Switch>
+                <Route path="/login" component={Login} />
+                <Route path="/" component={Main} exact />
+                <Route path="/users/:userId?" component={Users} />
+            </Switch>
+        </>
+    );
 }
 
 export default App;
