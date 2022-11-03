@@ -8,12 +8,12 @@ const Table = ({ onSort, selectedSort, columns, data, children }) => {
         <table className="table">
             {children || (
                 <>
-                    <TableHeader { ...{ onSort, selectedSort, columns }} />
-                    <TableBody {...{ columns, data }}/>
+                    <TableHeader {...{ onSort, selectedSort, columns }} />
+                    <TableBody {...{ columns, data }} />
                 </>
-                )}
+            )}
         </table>
-        );
+    );
 };
 
 Table.propTypes = {

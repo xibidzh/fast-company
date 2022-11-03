@@ -7,7 +7,14 @@ import QualitiesList from "./qualitiesList";
 import Table from "./table";
 import { Link } from "react-router-dom";
 
-const UserTable = ({ users, onSort, selectedSort, onToggleBookMark, onDelete, ...rest }) => {
+const UserTable = ({
+    users,
+    onSort,
+    selectedSort,
+    onToggleBookMark,
+    onDelete,
+    ...rest
+}) => {
     const columns = {
         name: {
             path: "name",
@@ -18,41 +25,44 @@ const UserTable = ({ users, onSort, selectedSort, onToggleBookMark, onDelete, ..
         },
         qualities: {
             name: "Качества",
-            component: (user) => (
-                <QualitiesList qualities={user.qualities}/>
-            )
+            component: (user) => <QualitiesList qualities={user.qualities} />
         },
         profession: { path: "profession.name", name: "Профессия" },
-        completedMeetings: { path: "completedMeetings", name: "Встретился, раз" },
+        completedMeetings: {
+            path: "completedMeetings",
+            name: "Встретился, раз"
+        },
         rate: { path: "rate", name: "Оценка" },
         bookmark: {
             path: "bookmark",
             name: "Избранное",
-            component: (user) =>
-            (<BookMark
-                status={user.bookmark}
-                onClick={() => onToggleBookMark(user._id)}
-            />)
+            component: (user) => (
+                <BookMark
+                    status={user.bookmark}
+                    onClick={() => onToggleBookMark(user._id)}
+                />
+            )
         },
         delete: {
             component: (user) => (
-            <button
+                <button
                     onClick={() => onDelete(user._id)}
                     className="btn btn-danger"
                 >
                     delete
-            </button>)
-    }
+                </button>
+            )
+        }
     };
     return (
         <Table
             onSort={onSort}
             selectedSort={selectedSort}
             columns={columns}
-            data={users}>
-
-            <TableHeader { ...{ onSort, selectedSort, columns }} />
-            <TableBody {...{ columns, data: users }}/>
+            data={users}
+        >
+            <TableHeader {...{ onSort, selectedSort, columns }} />
+            <TableBody {...{ columns, data: users }} />
         </Table>
     );
 };

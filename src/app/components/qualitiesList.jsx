@@ -5,11 +5,11 @@ import Quality from "./quality";
 const QualitiesList = ({ qualities }) => {
     return (
         <>
-        {qualities.map((qual) => (
-                    <Quality {...qual} key={qual._id} />
-                ))}
+            {qualities.map((qual) => (
+                <Quality {...qual} key={qual._id} />
+            ))}
         </>
-     );
+    );
 };
 
 QualitiesList.propTypes = {

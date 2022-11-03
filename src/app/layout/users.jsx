@@ -6,9 +6,7 @@ import UsersList from "../components/usersList";
 const Users = () => {
     const { userId } = useParams();
 
-    return <>
-        { userId ? <UserPage id={userId} /> : <UsersList /> }
-        </>;
+    return <>{userId ? <UserPage id={userId} /> : <UsersList />}</>;
 };
 
 export default Users;

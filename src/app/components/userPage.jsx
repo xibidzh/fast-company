@@ -25,18 +25,21 @@ const UserPage = ({ id }) => {
                     <QualitiesList qualities={user.qualities} />
                     <h3>{`Рейтинг: ${user.rate}`}</h3>
                     <button
-                            className="btn btn-outline-primary m-2"
-                            onClick={() => {
-                                handleToUsers();
-                            }}>
-                            Все пользователи
+                        className="btn btn-outline-primary m-2"
+                        onClick={() => {
+                            handleToUsers();
+                        }}
+                    >
+                        Все пользователи
                     </button>
                 </div>
             )
         );
     }
 
-    return (<div className="d-flex justify-content-center"> {"Loading..."} </div>);
+    return (
+        <div className="d-flex justify-content-center"> {"Loading..."} </div>
+    );
 };
 
 UserPage.propTypes = {
