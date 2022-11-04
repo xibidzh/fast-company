@@ -10,15 +10,15 @@ const TextField = ({ label, type, name, value, onChange, error }) => {
     const togglePassword = () => {
         setShowPassword((prevState) => !prevState);
     };
+
     return (
         <div className="mb-4">
             <label htmlFor={name} className="m-2">
                 {label}
             </label>
-            <div className="input-group">
+            <div className="input-group has-validation">
                 <input
                     className={getInputClasses()}
-                    // "m-2 form-control is-invalid"
                     type={showPassword ? "text" : type}
                     id={name}
                     value={value}
@@ -27,15 +27,19 @@ const TextField = ({ label, type, name, value, onChange, error }) => {
                 />
                 {type === "password" && (
                     <button
-                        className="btn btn-outline-secondary"
+                        className="btn btn-outline"
                         type="button"
                         onClick={togglePassword}
                     >
-                        {showPassword ? "hide" : "show"}
+                        <i
+                            className={
+                                showPassword ? "bi bi-eye-slash" : "bi bi-eye"
+                            }
+                        ></i>
                     </button>
                 )}
+                {error && <div className="invalid-feedback">{error}</div>}
             </div>
-            {error && <div className="invalid-feedback">{error}</div>}
         </div>
     );
 };

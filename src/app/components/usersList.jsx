@@ -6,6 +6,7 @@ import GroupList from "./groupList";
 import SearchStatus from "./searchStatus";
 import UserTable from "./usersTable";
 import _ from "lodash";
+import FindForm from "./findForm";
 
 const UsersList = () => {
     const pageSize = 6;
@@ -13,8 +14,9 @@ const UsersList = () => {
     const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
-
     const [users, setUsers] = useState();
+    const [find, setFind] = useState("");
+    // console.log(find);
 
     const handleDelete = (userId) => {
         setUsers((prevState) =>
@@ -41,6 +43,12 @@ const UsersList = () => {
         setCurrentPage(1);
     }, [selectedProf]);
 
+    useEffect(() => {
+        if (find) {
+            setSelectedProf();
+        }
+    }, [find]);
+
     const handlePageChange = (pageIndex) => {
         setCurrentPage(pageIndex);
     };
@@ -53,14 +61,26 @@ const UsersList = () => {
         setSortBy(item);
     };
 
+    const handleFindChange = (e) => {
+        setFind(e.target.value);
+    };
+
     if (users) {
-        const filteredUsers = selectedProf
-            ? users.filter(
-                  (user) =>
-                      JSON.stringify(user.profession) ===
-                      JSON.stringify(selectedProf)
-              )
-            : users;
+        let filteredUsers = users;
+        if (find) {
+            filteredUsers = users.filter(
+                (user) =>
+                    user.name.toLowerCase().indexOf(find.toLowerCase()) >= 0
+            );
+        }
+        if (selectedProf) {
+            filteredUsers = users.filter(
+                (user) =>
+                    JSON.stringify(user.profession) ===
+                    JSON.stringify(selectedProf)
+            );
+        }
+
         const count = filteredUsers.length;
 
         const sortedUsers = _.orderBy(
@@ -71,8 +91,8 @@ const UsersList = () => {
         const userCrop = paginate(sortedUsers, currentPage, pageSize);
         const clearFilter = () => {
             setSelectedProf();
+            setFind("");
         };
-
         return (
             <div className="d-flex">
                 {professions && (
@@ -92,6 +112,7 @@ const UsersList = () => {
                 )}
                 <div className="d-flex flex-column">
                     <SearchStatus length={count} />
+                    <FindForm value={find} onChange={handleFindChange} />
                     {count > 0 && (
                         <UserTable
                             users={userCrop}
