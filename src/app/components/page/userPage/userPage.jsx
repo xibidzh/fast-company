@@ -15,6 +15,10 @@ const UserPage = ({ id }) => {
         history.replace("/users");
     };
 
+    const handleToEdit = () => {
+        history.push("/users/" + id + "/edit");
+    };
+
     if (user) {
         return (
             user && (
@@ -31,6 +35,14 @@ const UserPage = ({ id }) => {
                         }}
                     >
                         Все пользователи
+                    </button>
+                    <button
+                        className="btn btn-outline-danger m-2"
+                        onClick={() => {
+                            handleToEdit();
+                        }}
+                    >
+                        Изменить
                     </button>
                 </div>
             )

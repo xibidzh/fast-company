@@ -22,7 +22,7 @@ const UsersListPage = () => {
         );
     };
 
-    const handleToggleBookmark = (id) => {
+    const handleToggleBookMark = (id) => {
         const newArray = users.map((user) => {
             if (user._id === id) {
                 return { ...user, bookmark: !user.bookmark };
@@ -130,7 +130,7 @@ const UsersListPage = () => {
                             onSort={handleSort}
                             selectedSort={sortBy}
                             onDelete={handleDelete}
-                            onToogleBookmark={handleToggleBookmark}
+                            onToggleBookMark={handleToggleBookMark}
                         />
                     )}
 
