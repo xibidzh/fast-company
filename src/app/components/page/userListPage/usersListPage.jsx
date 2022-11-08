@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from "react";
-import Pagination from "./pagination";
-import { paginate } from "../utils/paginate";
-import api from "../api";
-import GroupList from "./groupList";
-import SearchStatus from "./searchStatus";
-import UserTable from "./usersTable";
+import Pagination from "../../common/pagination";
+import { paginate } from "../../../utils/paginate";
+import api from "../../../api";
+import GroupList from "../../common/groupList";
+import SearchStatus from "../../ui/searchStatus";
+import UserTable from "../../ui/usersTable";
 import _ from "lodash";
-import FindForm from "./findForm";
 
-const UsersList = () => {
+const UsersListPage = () => {
     const pageSize = 6;
     const [currentPage, setCurrentPage] = useState(1);
     const [professions, setProfessions] = useState();
     const [selectedProf, setSelectedProf] = useState();
     const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
     const [users, setUsers] = useState();
-    const [find, setFind] = useState("");
-    // console.log(find);
+    const [searchQuery, setSearchQuery] = useState("");
 
     const handleDelete = (userId) => {
         setUsers((prevState) =>
@@ -25,10 +23,13 @@ const UsersList = () => {
     };
 
     const handleToggleBookmark = (id) => {
-        const userIndex = users.findIndex((c) => c._id === id);
-        const usersList = [...users];
-        usersList[userIndex].bookmark = !usersList[userIndex].bookmark;
-        setUsers(usersList);
+        const newArray = users.map((user) => {
+            if (user._id === id) {
+                return { ...user, bookmark: !user.bookmark };
+            }
+            return user;
+        });
+        setUsers(newArray);
     };
 
     useEffect(() => {
@@ -41,13 +42,13 @@ const UsersList = () => {
 
     useEffect(() => {
         setCurrentPage(1);
-    }, [selectedProf]);
+    }, [selectedProf, searchQuery]);
 
     useEffect(() => {
-        if (find) {
+        if (searchQuery) {
             setSelectedProf();
         }
-    }, [find]);
+    }, [searchQuery]);
 
     const handlePageChange = (pageIndex) => {
         setCurrentPage(pageIndex);
@@ -55,22 +56,25 @@ const UsersList = () => {
 
     const handleProfessionSelect = (item) => {
         setSelectedProf(item);
+        setSearchQuery("");
     };
 
     const handleSort = (item) => {
         setSortBy(item);
     };
 
-    const handleFindChange = (e) => {
-        setFind(e.target.value);
+    const handleSearchQuery = ({ target }) => {
+        setSearchQuery(target.value);
     };
 
     if (users) {
         let filteredUsers = users;
-        if (find) {
+        if (searchQuery) {
             filteredUsers = users.filter(
                 (user) =>
-                    user.name.toLowerCase().indexOf(find.toLowerCase()) >= 0
+                    user.name
+                        .toLowerCase()
+                        .indexOf(searchQuery.toLowerCase()) !== -1
             );
         }
         if (selectedProf) {
@@ -91,7 +95,7 @@ const UsersList = () => {
         const userCrop = paginate(sortedUsers, currentPage, pageSize);
         const clearFilter = () => {
             setSelectedProf();
-            setFind("");
+            setSearchQuery("");
         };
         return (
             <div className="d-flex">
@@ -112,7 +116,14 @@ const UsersList = () => {
                 )}
                 <div className="d-flex flex-column">
                     <SearchStatus length={count} />
-                    <FindForm value={find} onChange={handleFindChange} />
+                    <input
+                        className=""
+                        type="text"
+                        name="searchQuery"
+                        placeholder="Search..."
+                        onChange={handleSearchQuery}
+                        value={searchQuery}
+                    />
                     {count > 0 && (
                         <UserTable
                             users={userCrop}
@@ -138,4 +149,4 @@ const UsersList = () => {
     return <div className="d-flex justify-content-center">loading...</div>;
 };
 
-export default UsersList;
+export default UsersListPage;
